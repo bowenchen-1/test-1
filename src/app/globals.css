@@ -1,0 +1,140 @@
+/* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #667eea;
+}
+
+.button {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #5a6fd8;
+}
+
+.button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.error {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #fee;
+  color: #c33;
+  border-radius: 5px;
+}
+
+.weather-info {
+  margin-top: 20px;
+}
+
+.city-name {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.weather-description {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.card-item {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.card-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.blue {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.green {
+  background: #e8f5e8;
+  color: #388e3c;
+}
+
+.purple {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
