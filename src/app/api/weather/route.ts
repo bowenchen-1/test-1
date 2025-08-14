@@ -6,6 +6,8 @@ interface WeatherData {
     temp: number;
     feels_like: number;
     humidity: number;
+    temp_min: number;
+    temp_max: number;
   };
   weather: Array<{
     main: string;
@@ -45,20 +47,23 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
     
     // 转换 wttr.in 数据格式为前端需要的格式
+    const current = data.current_condition?.[0] || {};
     const weatherData: WeatherData = {
       name: data.nearest_area?.[0]?.areaName?.[0]?.value || city,
       main: {
-        temp: parseFloat(data.current_condition?.[0]?.temp_C || 0),
-        feels_like: parseFloat(data.current_condition?.[0]?.FeelsLikeC || 0),
-        humidity: parseFloat(data.current_condition?.[0]?.humidity || 0)
+        temp: parseFloat(current.temp_C || 0),
+        feels_like: parseFloat(current.FeelsLikeC || 0),
+        humidity: parseFloat(current.humidity || 0),
+        temp_min: parseFloat(data.weather?.[0]?.mintempC || current.temp_C || 0),
+        temp_max: parseFloat(data.weather?.[0]?.maxtempC || current.temp_C || 0)
       },
       weather: [{
-        main: data.current_condition?.[0]?.weatherDesc?.[0]?.value || '未知',
-        description: data.current_condition?.[0]?.weatherDesc?.[0]?.value || '未知天气',
-        icon: data.current_condition?.[0]?.weatherIconUrl?.[0]?.value || ''
+        main: current.weatherDesc?.[0]?.value || '未知',
+        description: current.weatherDesc?.[0]?.value || '未知天气',
+        icon: current.weatherIconUrl?.[0]?.value || ''
       }],
       wind: {
-        speed: parseFloat(data.current_condition?.[0]?.windspeedKmph || 0) * 0.27778 // 转换为 m/s
+        speed: parseFloat(current.windspeedKmph || 0) * 0.27778 // 转换为 m/s
       }
     };
     

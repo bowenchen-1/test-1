@@ -8,6 +8,8 @@ interface WeatherData {
     temp: number;
     feels_like: number;
     humidity: number;
+    temp_min: number;
+    temp_max: number;
   };
   weather: Array<{
     main: string;
@@ -83,8 +85,13 @@ export default function Home() {
             
             <div className="grid">
               <div className="card-item blue">
-                <div className="card-title">温度</div>
-                <div className="card-value">{Math.round(weatherData.main.temp)}°C</div>
+                <div className="card-title">温度范围</div>
+                <div className="temp-range">
+                  <span className="temp-max">{Math.round(weatherData.main.temp_max)}°</span>
+                  <span className="temp-separator">/</span>
+                  <span className="temp-min">{Math.round(weatherData.main.temp_min)}°</span>
+                </div>
+                <div className="current-temp">当前: {Math.round(weatherData.main.temp)}°C</div>
               </div>
               
               <div className="card-item blue">
