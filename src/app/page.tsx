@@ -106,7 +106,7 @@ export default function Home() {
               
               <div className="card-item purple">
                 <div className="card-title">风速</div>
-                <div className="card-value">{weatherData.wind.speed} m/s</div>
+                <div className="card-value">{Math.round(weatherData.wind.speed * 10) / 10} m/s</div>
               </div>
             </div>
           </div>
