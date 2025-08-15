@@ -176,11 +176,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(cached.data);
   }
 
-  // API备选方案
+  // API备选方案 - 国内可用优先
   const apis = [
-    getWeatherFromWeatherAPI,
-    getWeatherFromOpenWeather,
-    getWeatherFromWttrIn
+    getWeatherFromOpenWeather,   // 全球CDN，国内可访问
+    getWeatherFromWttrIn         // 国外备选
   ];
 
   for (const api of apis) {
