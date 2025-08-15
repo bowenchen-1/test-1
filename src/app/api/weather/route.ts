@@ -20,10 +20,19 @@ interface WeatherData {
 }
 
 // 缓存机制
-const cache = new Map<string, { data: any; timestamp: number }>();
+interface CacheData {
+  data: WeatherData;
+  timestamp: number;
+}
+const cache = new Map<string, CacheData>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
 
-async function fetchWithTimeout(url: string, options: any = {}, timeout = 5000) {
+interface FetchOptions {
+  headers?: Record<string, string>;
+  signal?: AbortSignal;
+}
+
+async function fetchWithTimeout(url: string, options: FetchOptions = {}, timeout = 5000) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
   
@@ -180,7 +189,7 @@ export async function GET(request: NextRequest) {
       cache.set(cacheKey, { data: weatherData, timestamp: Date.now() });
       return NextResponse.json(weatherData);
     } catch (error) {
-      console.warn(`${api.name} 失败:`, error.message);
+      console.warn(`${api.name} 失败:`, error instanceof Error ? error.message : String(error));
       continue;
     }
   }
