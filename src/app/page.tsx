@@ -35,6 +35,18 @@ export default function Home() {
     setError('');
 
     try {
+      // 前端缓存检查
+      const cacheKey = `weather_${city}`;
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < 5 * 60 * 1000) { // 5分钟缓存
+          setWeatherData(data);
+          setLoading(false);
+          return;
+        }
+      }
+
       const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
       const data = await response.json();
 
@@ -42,9 +54,15 @@ export default function Home() {
         throw new Error(data.error || '获取天气数据失败');
       }
 
+      // 缓存到本地存储
+      localStorage.setItem(cacheKey, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+
       setWeatherData(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : '获取天气数据失败');
+      setError(err instanceof Error ? err.message : '获取天气数据失败，请检查网络连接');
     } finally {
       setLoading(false);
     }
@@ -75,7 +93,14 @@ export default function Home() {
         </form>
 
         {error && (
-          <div className="error">{error}</div>
+          <div className="error">
+            <div>{error}</div>
+            {error.includes('网络连接') && (
+              <div style={{ fontSize: '12px', marginTop: '5px' }}>
+                提示：可以尝试使用免费API密钥获得更好的访问体验
+              </div>
+            )}
+          </div>
         )}
 
         {weatherData && (
